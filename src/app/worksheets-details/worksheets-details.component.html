@@ -1,0 +1,52 @@
+<h2>Online Worksheets data for Classes KG to Xth</h2>
+<div class="form-group">
+  <!-- <label for="week">Week</label> -->
+  <select class="form-control" id="week" (change)="onChange($event.target.value)">
+    <option value="">Select Week</option>
+    <option *ngFor="let w of weeks" [value]="w.id">{{ w.name}}</option>
+  </select>
+</div>
+<table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Employee Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Class</th>
+        <th scope="col">Section</th>
+        <!-- <th scope="col">Week</th> -->
+        <th scope="col">Enrollment</th>
+        <th scope="col">Online Sent</th>
+        <th scope="col">Online Reverted</th>
+        <th scope="col">Hard Copy Sent</th>
+        <th scope="col">Hard Copy Reverted</th>
+        <th scope="col">Not Contactable</th>
+        <th scope="col">Migrated</th>
+        <th scope="col">Unreachable no.</th>
+        <th scope="col">Address Changed</th>
+        <th scope="col">Any other</th>
+        <th scope="col">Entry Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ws of data">
+  
+        <td>{{ws.empId}}</td>
+        <td>{{ws.empName}}</td>
+        <td>{{ws.class}}</td>
+        <td>{{ws.section}}</td>
+        <!-- <td>{{ws.week}}</td> -->
+        <td>{{ws.enroll}}</td>
+        <td>{{ws.onlineSent}}</td>
+        <td>{{ws.onlineReverted}}</td>
+        <td>{{ws.hardSent}}</td>
+        <td>{{ws.hardReverted}}</td>
+        <td>{{ws.notContactable}}</td>
+        <td>{{ws.migrated}}</td>
+        <td>{{ws.unreachableNo}}</td>
+        <td>{{ws.addressChanged}}</td>
+        <td>{{ws.other}}</td>
+        <td>{{ws.entryDate.toDate() | date:'dd/MM/yyyy hh:mm:ss a z' }}</td>
+        
+      </tr>
+    </tbody>
+  </table>

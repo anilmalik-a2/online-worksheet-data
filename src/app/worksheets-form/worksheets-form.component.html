@@ -1,0 +1,119 @@
+<h2>Online Worksheets data for Classes KG to Xth</h2>
+<div class="card">
+  <div class="card-body">
+    <div *ngIf="res != -1" class="alert" [class.alert-success] = "res === 1" [class.alert-danger] = "res === 0" role="alert">
+      {{msg}}
+    </div>
+    <form [formGroup]="worksheetForm" (ngSubmit)="onSubmit(); myForm.resetForm()" #myForm="ngForm">
+
+      <div class="form-group">
+        <label for="week">Week<span class="req">*</span></label>
+        <select class="form-control" id="week" formControlName="week" required>
+          <option value="">Select Week</option>
+          <option *ngFor="let w of weeks" [value]="w.id">{{ w.name}}</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="class">Class<span class="req">*</span></label>
+            <select class="form-control" id="class" formControlName="class" required>
+              <option value="">Select Class</option>
+              <option *ngFor="let cls of CLASSES" [value]="cls">{{cls}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="section">Section<span class="req">*</span></label>
+            <select class="form-control" id="section" formControlName="section" required>
+              <option value="">Select Section</option>
+              <option *ngFor="let sec of SECTIONS" [value]="sec">{{sec}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Employee details -->
+      <fieldset class="border p-2">
+        <legend class="w-auto">Employee Details:</legend>
+        <div class="form-group">
+          <label for="empId">Employee Id<span class="req">*</span></label>
+          <input type="number" class="form-control" id="empId" formControlName="empId" required>
+        </div>
+
+        <div class="form-group">
+          <label for="empName">Employee name<span class="req">*</span></label>
+          <input type="text" class="form-control" id="empName" formControlName="empName" required>
+        </div>
+      </fieldset>
+      <!-- Student Details -->
+      <fieldset class="border p-2">
+        <legend class="w-auto">Students Detail:</legend>
+        <div *ngIf="worksheetForm.errors?.rule1Failed && (worksheetForm.touched || worksheetForm.dirty)" class="cross-validation-error-message alert alert-danger">
+          Rule 1 Failed
+        </div>
+        <div class="form-group">
+          <label for="enroll"><b>A.</b> Enrollment<span class="req">*</span> &nbsp;<b>(Rule 1 --> A = B + D + F)</b></label>
+          <input type="number" class="form-control" id="enroll" formControlName="enroll" required>
+        </div>
+        <div class="form-group">
+          <label for="onlineSent"><b>B.</b> Worksheet Sent on Whatsapp<span class="req">*</span>&nbsp;<b>(Rule 2 --> B >=(greater than equal to) C)</b></label>
+          <input type="number" class="form-control" id="onlineSent" formControlName="onlineSent" required>
+        </div>
+        <div class="form-group">
+          <label for="onlineReverted"><b>C.</b> Worksheet Reverted Back on Whatsapp<span class="req">*</span></label>
+          <input type="number" class="form-control" id="onlineReverted" formControlName="onlineReverted" required>
+        </div>
+        <div *ngIf="worksheetForm.errors?.rule2Failed && (worksheetForm.touched || worksheetForm.dirty)" class="cross-validation-error-message alert alert-danger">
+          Rule 2 Failed
+        </div>
+        <div class="form-group">
+          <label for="hardSent"><b>D.</b> Worksheet Provided in Print form<span class="req">*</span>&nbsp;<b>(Rule 3 --> D >=(greater than equal to) E)</b></label>
+          <input type="number" class="form-control" id="hardSent" formControlName="hardSent" required>
+        </div>
+        <div class="form-group">
+          <label for="hardReverted"><b>E.</b> Worksheet Reverted Back in Print form<span class="req">*</span></label>
+          <input type="number" class="form-control" id="hardReverted" formControlName="hardReverted" required>
+        </div>
+        <div *ngIf="worksheetForm.errors?.rule3Failed && (worksheetForm.touched || worksheetForm.dirty)" class="cross-validation-error-message alert alert-danger">
+          Rule 3 Failed
+        </div>
+        <div class="form-group">
+          <label for="notContactable"><b>F.</b> Not Contactable<span class="req">*</span> &nbsp;<b>(Rule 4 --> F = G + H + I + J)</b></label>
+          <input type="number" class="form-control" id="notContactable" formControlName="notContactable" required>
+        </div>
+        <fieldset class="border p-2">
+          <legend class="w-auto">Not Contactable Student Details:</legend>
+          <div *ngIf="worksheetForm.errors?.rule4Failed && (worksheetForm.touched || worksheetForm.dirty)" class="cross-validation-error-message alert alert-danger">
+            Rule 4 Failed
+          </div>
+          <div class="form-group">
+            <label for="migrated"><b>G.</b> Not Contactable due to Migration<span class="req">*</span></label>
+            <input type="number" class="form-control" id="migrated" formControlName="migrated" required>
+          </div>
+          <div class="form-group">
+            <label for="unreachableNo"><b>H.</b> Not Contactable due to phone Unreachable<span class="req">*</span></label>
+            <input type="number" class="form-control" id="unreachableNo" formControlName="unreachableNo" required>
+          </div>
+          <div class="form-group">
+            <label for="addressChanged"><b>I.</b> Not Contactable due to Address Changed<span class="req">*</span></label>
+            <input type="number" class="form-control" id="addressChanged" formControlName="addressChanged" required>
+          </div>
+          <div class="form-group">
+            <label for="other"><b>J.</b> Not Contactable due to Any Other Reasons<span class="req">*</span></label>
+            <input type="number" class="form-control" id="other" formControlName="other" required>
+          </div>
+      </fieldset>
+    </fieldset>&nbsp;
+    <div class="row">
+      <div class="col text-center">
+        <button type="submit" class="btn btn-primary mx-2" [disabled]="!worksheetForm.valid || worksheetForm.errors">Submit</button>
+        <button type="button" class="btn btn-secondary mx-2" (click)="myForm.resetForm()">Reset</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>

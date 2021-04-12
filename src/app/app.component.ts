@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'online-worksheets-data';
+  title = 'Online Worksheets Data';
 }
