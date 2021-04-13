@@ -1,3 +1,13 @@
+// Medium devices (tablets, less than 1256px)
+@media (max-width: 1255.98px) { 
+    :host {
+        width: 95%;
+    }
+}
 h2 {
     text-align: center;
+}
+.row {
+    width: fit-content;
+    margin: auto;
 }

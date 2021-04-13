@@ -2,37 +2,11 @@ import { WorksheetModel } from './../models/worksheets-model';
 import { Component, OnInit } from '@angular/core';
 import { WorksheetsService } from '../services/worksheets.service';
 
-import { AbstractControl, FormBuilder, FormControl, ValidationErrors, ValidatorFn, Validators  } from '@angular/forms';
+import { FormBuilder, FormControl, Validators  } from '@angular/forms';
 
 import { CLASSES, SECTIONS } from './../models/CONSTANTS';
+import { rule1Validator, rule2Validator, rule3Validator, rule4Validator } from '../models/validators';
 
-const rule1Validator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const a = control.get('enroll');
-  const b = control.get('onlineSent');
-  const d = control.get('hardSent');
-  const f = control.get('notContactable');
-  const sum = parseInt(b.value + d.value + f.value, 10);
-  return !Number.isNaN(sum) && a.value !== sum ? { rule1Failed: true } : null;
-};
-const rule2Validator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const b = control.get('onlineSent');
-  const c = control.get('onlineReverted');
-  return b.value < c.value ? { rule2Failed: true } : null;
-};
-const rule3Validator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const d = control.get('hardSent');
-  const e = control.get('hardReverted');
-  return d.value < e.value ? { rule3Failed: true } : null;
-};
-const rule4Validator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const f = control.get('notContactable');
-  const g = control.get('migrated');
-  const h = control.get('unreachableNo');
-  const i = control.get('addressChanged');
-  const j = control.get('other');
-  const sum = parseInt(g.value + h.value + i.value + j.value, 10);
-  return !Number.isNaN(sum) && f.value !== sum ? { rule4Failed: true } : null;
-};
 
 @Component({
   selector: 'app-worksheets-form',
@@ -47,6 +21,7 @@ export class WorksheetsFormComponent implements OnInit {
   weeks: any;
   res = -1;
   msg = '';
+  docId = null;
 
   worksheetForm = this.fb.group({
     empId: new FormControl(''),
@@ -89,11 +64,18 @@ export class WorksheetsFormComponent implements OnInit {
   }
 
   onSubmit(): any {
-    // console.warn(this.worksheetForm.value);
     const wsData = this.worksheetForm.value as WorksheetModel;
     wsData.entryDate = new Date();
-    this.worksheetService.saveWorksheetData(wsData).then((docRef: any) => {
-      console.log('Document written with ID: ', docRef.id);
+    let result: any;
+    if (this.docId !== null) {
+      wsData.id = this.docId;
+      result = this.worksheetService.updateWorksheetData(wsData);
+    } else {
+      result = this.worksheetService.saveWorksheetData(wsData);
+    }
+
+    result.then((docRef: any) => {
+      console.log('Document written with doc: ', docRef);
       this.res = 1;
       this.msg = 'Data submitted successfully!!!';
       this.reset();
@@ -108,10 +90,88 @@ export class WorksheetsFormComponent implements OnInit {
 
   reset(): any {
     window.scroll(0, 0);
+    this.worksheetForm.patchValue({
+      class: '',
+      section: '',
+      week: '',
+      empId: '',
+      empName: '',
+      enroll: '',
+      onlineSent: '',
+      onlineReverted: '',
+      hardSent: '',
+      hardReverted: '',
+      notContactable: '',
+      migrated: '',
+      unreachableNo: '',
+      addressChanged: '',
+      other: ''
+    });
+    this.docId = null;
     // setTimeout(() => {
     //   this.res = -1;
     //   this.msg = '';
     // }, 5000);
+  }
+
+  checkDetails(): any {
+    const cls = this.worksheetForm.controls.class.value;
+    const week = this.worksheetForm.controls.week.value;
+    const section = this.worksheetForm.controls.section.value;
+    // console.log('check details', cls, week, section);
+    if (cls && week && section) {
+      const subs = this.worksheetService.getSingleWorksheetData(week, cls, section).subscribe((data: any) => {
+        let d = data.map((e: any) => {
+          return {
+            docId: e.payload.doc.id,
+            ...e.payload.doc.data() as {}
+          };
+        });
+        // console.log(d);
+        if (d.length > 0) {
+          d = d[0];
+          // hurrrah!!! we found earlier submitted data
+          this.docId = d.docId;
+          this.worksheetForm.patchValue({
+            empId: d.empId,
+            empName: d.empName,
+            enroll: d.enroll,
+            onlineSent: d.onlineSent,
+            onlineReverted: d.onlineReverted,
+            hardSent: d.hardSent,
+            hardReverted: d.hardReverted,
+            notContactable: d.notContactable,
+            migrated: d.migrated,
+            unreachableNo: d.unreachableNo,
+            addressChanged: d.addressChanged,
+            other: d.other
+         });
+        } else {
+          this.resetSomeFields();
+        }
+        subs.unsubscribe();
+      });
+    } else {
+      this.resetSomeFields();
+    }
+  }
+
+  resetSomeFields(): any {
+    this.docId = null;
+    this.worksheetForm.patchValue({
+      empId: '',
+      empName: '',
+      enroll: '',
+      onlineSent: '',
+      onlineReverted: '',
+      hardSent: '',
+      hardReverted: '',
+      notContactable: '',
+      migrated: '',
+      unreachableNo: '',
+      addressChanged: '',
+      other: ''
+    });
   }
 
 }

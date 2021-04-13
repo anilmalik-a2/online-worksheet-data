@@ -25,10 +25,17 @@ export class WorksheetsService {
     return this.firestore.collection(this.collectionName).add(wsData);
   }
 
-  // updatePolicy(policy: Policy): any {
-  //   delete policy.id;
-  //   this.firestore.doc('policies/' + policy.id).update(policy);
-  // }
+  updateWorksheetData(wsData: WorksheetModel): any {
+    const docId = wsData.id;
+    delete wsData.id;
+    // console.log(docId);
+    return this.firestore.doc(this.collectionName + '/' + docId).update(wsData);
+  }
+
+  getSingleWorksheetData(week: string, cls: string, section: string): any {
+    return this.firestore.collection(this.collectionName,
+      ref => ref.where('week', '==', week).where('class', '==', cls).where('section', '==', section)).snapshotChanges();
+  }
 
   // deletePolicy(policyId: string): any {
   //   this.firestore.doc('policies/' + policyId).delete();
