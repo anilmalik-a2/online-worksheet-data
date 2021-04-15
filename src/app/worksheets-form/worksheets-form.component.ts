@@ -52,13 +52,10 @@ export class WorksheetsFormComponent implements OnInit {
         };
       });
       this.weeks = d.sort((n1: any, n2: any) => {
-        if (n1.id > n2.id) {
-          return 1;
+        if (n1.id === n2.id) {
+          return 0;
         }
-        if (n1.id < n2.id) {
-            return -1;
-        }
-        return 0;
+        return n1.id > n2.id ? 1 : -1;
       });
     });
   }

@@ -1,6 +1,7 @@
 import { WorksheetModel } from './../models/worksheets-model';
 import { WorksheetsService } from '../services/worksheets.service';
 import { Component, OnInit } from '@angular/core';
+import { CLASSES } from '../models/CONSTANTS';
 
 @Component({
   selector: 'app-worksheets-details',
@@ -22,13 +23,10 @@ export class WorksheetsDetailsComponent implements OnInit {
         };
       });
       this.weeks = d.sort((n1: any, n2: any) => {
-        if (n1.id > n2.id) {
-          return 1;
+        if (n1.id === n2.id) {
+          return 0;
         }
-        if (n1.id < n2.id) {
-            return -1;
-        }
-        return 0;
+        return n1.id > n2.id ? 1 : -1;
       });
     });
   }
@@ -39,11 +37,22 @@ export class WorksheetsDetailsComponent implements OnInit {
       return;
     }
     this.worksheetService.getWorksheetsData(val).subscribe((data: any) => {
-      this.data = data.map((e: any) => {
+      const d: WorksheetModel[] = data.map((e: any) => {
         return {
           id: e.payload.doc.id,
           ...e.payload.doc.data() as {}
         } as WorksheetModel;
+      });
+      this.data = d.sort((a: WorksheetModel, b: WorksheetModel) => {
+        const cls1 = CLASSES.indexOf(a.class);
+        const cls2 = CLASSES.indexOf(b.class);
+        if (cls1 === cls2) {
+          if (a.section === b.section) {
+            return 0;
+          }
+          return a.section > b.section ? 1 : -1;
+        }
+        return cls1 > cls2 ? 1 : -1;
       });
     });
   }
