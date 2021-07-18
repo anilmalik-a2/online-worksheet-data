@@ -2,6 +2,7 @@ import { WorksheetModel } from './../models/worksheets-model';
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,9 @@ export class WorksheetsService {
 
   constructor(private firestore: AngularFirestore) { }
 
+  getUser(usr: string, pwd: string): any {
+    return this.firestore.collection('auth', ref => ref.where('user', '==', usr).where('pwd', '==', pwd)).snapshotChanges();
+  }
   getWeeks(): any {
     return this.firestore.collection('weeks').snapshotChanges();
   }

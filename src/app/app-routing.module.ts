@@ -1,3 +1,4 @@
+import { LoginComponent } from './login/login.component';
 import { WorksheetsDetailsComponent } from './worksheets-details/worksheets-details.component';
 import { WorksheetsFormComponent } from './worksheets-form/worksheets-form.component';
 import { NgModule } from '@angular/core';
@@ -13,6 +14,12 @@ const routes: Routes = [
   {
     path: 'details',
     component: WorksheetsDetailsComponent,
+    data: { title: 'Online Worksheets Details' },
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
     data: { title: 'Online Worksheets Details' },
     pathMatch: 'full'
   },
