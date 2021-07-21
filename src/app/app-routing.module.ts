@@ -1,3 +1,4 @@
+import { LoginGuard } from './login.guard';
 import { LoginComponent } from './login/login.component';
 import { WorksheetsDetailsComponent } from './worksheets-details/worksheets-details.component';
 import { WorksheetsFormComponent } from './worksheets-form/worksheets-form.component';
@@ -15,7 +16,8 @@ const routes: Routes = [
     path: 'details',
     component: WorksheetsDetailsComponent,
     data: { title: 'Online Worksheets Details' },
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [LoginGuard]
   },
   {
     path: 'login',

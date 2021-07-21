@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('').then(() => {
             window.location.reload();
           });
-        }, 2000);
+        }, 500);
       } else {
         this.msg = 'Login Error.... Please try again.';
         this.res = 0;

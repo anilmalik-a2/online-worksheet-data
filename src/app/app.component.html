@@ -12,7 +12,7 @@
     <div class="spacer"></div>
     <div *ngIf="isLoggedIn">
       <a aria-label="Submitted data" rel="noopener" routerLink="details" routerLinkActive="active" title="Submitted data">Details</a>
-      <a href="#" aria-label="Log Out" (click)="onLogout()" rel="noopener" title="Log out">Log out</a>
+      <a style="cursor: pointer;" aria-label="Log Out" (click)="onLogout()" rel="noopener" title="Log out">Log out</a>
     </div>
     <div *ngIf="!isLoggedIn">
       <a aria-label="login" rel="noopener" routerLink="login" routerLinkActive="active" title="Login">Login</a>
