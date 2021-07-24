@@ -1,3 +1,4 @@
+import { MastersComponent } from './masters/masters.component';
 import { LoginGuard } from './login.guard';
 import { LoginComponent } from './login/login.component';
 import { WorksheetsDetailsComponent } from './worksheets-details/worksheets-details.component';
@@ -24,6 +25,13 @@ const routes: Routes = [
     component: LoginComponent,
     data: { title: 'Online Worksheets Details' },
     pathMatch: 'full'
+  },
+  {
+    path: 'masters',
+    component: MastersComponent,
+    data: { title: 'Online Worksheets Details' },
+    pathMatch: 'full',
+    // canActivate: [LoginGuard]
   },
 ];
 

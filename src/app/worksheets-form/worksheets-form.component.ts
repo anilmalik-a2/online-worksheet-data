@@ -51,7 +51,7 @@ export class WorksheetsFormComponent implements OnInit {
           ...e.payload.doc.data() as {}
         };
       });
-      this.weeks = d.sort((n1: any, n2: any) => {
+      this.weeks = d.filter((e: any) => e.isEnabled).sort((n1: any, n2: any) => {
         if (n1.id === n2.id) {
           return 0;
         }

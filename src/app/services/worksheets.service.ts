@@ -20,6 +20,16 @@ export class WorksheetsService {
   getWeeks(): any {
     return this.firestore.collection('weeks').snapshotChanges();
   }
+  addUpdateWeek(wData: any): any {
+    const data = {id: wData.id, isEnabled: wData.isEnabled, name: wData.name};
+    if (wData.docId) {
+      const docId = wData.docId;
+      return this.firestore.doc('weeks' + '/' + docId).update(data);
+    }
+    else {
+      return this.firestore.collection('weeks').add(data);
+    }
+  }
 
   getWorksheetsData(week: string): any {
     return this.firestore.collection(this.collectionName, ref => ref.where('week', '==', week)).snapshotChanges();
