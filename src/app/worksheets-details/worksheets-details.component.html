@@ -1,4 +1,4 @@
-<h2>Online Worksheets data for Classes KG to IX 2021-22</h2><br>
+<h2>Online Worksheets data for Classes KG to X 2021-22</h2><br>
 <div class="row">
   <div class="form-group col">
     <!-- <label for="week">Week</label> -->
@@ -31,26 +31,42 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let ws of data">
-        <td>{{ ws.empId }}</td>
-        <td>{{ ws.empName }}</td>
-        <td>{{ ws.class }}</td>
-        <td>{{ ws.section }}</td>
-        <!-- <td>{{ws.week}}</td> -->
-        <td>{{ ws.enroll }}</td>
-        <td>{{ ws.onlineSent }}</td>
-        <td>{{ ws.onlineReverted }}</td>
-        <td>{{ ws.hardSent }}</td>
-        <td>{{ ws.hardReverted }}</td>
-        <td>{{ ws.notContactable }}</td>
-        <td>{{ ws.migrated }}</td>
-        <td>{{ ws.unreachableNo }}</td>
-        <td>{{ ws.addressChanged }}</td>
-        <td>{{ ws.other }}</td>
-        <td>
-          {{ ws.entryDate.toDate() | date: "dd/MM/yyyy hh:mm:ss a" }}
-        </td>
-      </tr>
+      <ng-container *ngFor="let ws of data">
+        <tr *ngIf="!ws.class.includes('Total')">
+          <td>{{ ws.empId }}</td>
+          <td>{{ ws.empName }}</td>
+          <td>{{ ws.class }}</td>
+          <td>{{ ws.section }}</td>
+          <!-- <td>{{ws.week}}</td> -->
+          <td>{{ ws.enroll }}</td>
+          <td>{{ ws.onlineSent }}</td>
+          <td>{{ ws.onlineReverted }}</td>
+          <td>{{ ws.hardSent }}</td>
+          <td>{{ ws.hardReverted }}</td>
+          <td>{{ ws.notContactable }}</td>
+          <td>{{ ws.migrated }}</td>
+          <td>{{ ws.unreachableNo }}</td>
+          <td>{{ ws.addressChanged }}</td>
+          <td>{{ ws.other }}</td>
+          <td>
+            {{ ws.entryDate.toDate() | date: "dd/MM/yyyy hh:mm:ss a" }}
+          </td>
+        </tr>
+        <tr *ngIf="ws.class.includes('Total')" class="total-tr">
+          <td colspan="4">{{ ws.class }}</td>
+          <td>{{ ws.enroll }}</td>
+          <td>{{ ws.onlineSent }}</td>
+          <td>{{ ws.onlineReverted }}</td>
+          <td>{{ ws.hardSent }}</td>
+          <td>{{ ws.hardReverted }}</td>
+          <td>{{ ws.notContactable }}</td>
+          <td>{{ ws.migrated }}</td>
+          <td>{{ ws.unreachableNo }}</td>
+          <td>{{ ws.addressChanged }}</td>
+          <td>{{ ws.other }}</td>
+          <td></td>
+        </tr>
+      </ng-container>
     </tbody>
   </table>
 </div>

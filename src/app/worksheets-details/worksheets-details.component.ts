@@ -54,6 +54,49 @@ export class WorksheetsDetailsComponent implements OnInit {
         }
         return cls1 > cls2 ? 1 : -1;
       });
+      this.insertTotals();
     });
+  }
+
+  insertTotals(): any {
+    for (const cls of CLASSES) {
+      if (cls === 'KG') {
+        continue;
+      }
+      const indexes = this.getSameGroupStartEnd(cls);
+      if (indexes.start !== -1 && indexes.end !== -1) {
+        const newTotal = new WorksheetModel();
+        for (let i = indexes.start; i <= indexes.end; i++) {
+          // total
+          newTotal.enroll += this.data[i].enroll;
+          newTotal.onlineSent += this.data[i].onlineSent;
+          newTotal.onlineReverted += this.data[i].onlineReverted;
+          newTotal.hardSent += this.data[i].hardSent;
+          newTotal.hardReverted += this.data[i].hardReverted;
+          newTotal.notContactable += this.data[i].notContactable;
+          newTotal.migrated += this.data[i].migrated;
+          newTotal.unreachableNo += this.data[i].unreachableNo;
+          newTotal.addressChanged += this.data[i].addressChanged;
+          newTotal.other += this.data[i].other;
+        }
+        newTotal.class = 'Total --> ' + cls;
+        this.data.splice(indexes.end + 1, 0, newTotal);
+      }
+    }
+  }
+
+  getSameGroupStartEnd(classToFind: string): any {
+    const start = this.data.findIndex(d => d.class === classToFind);
+    const end = this.lastIndexOf(classToFind);
+    return { start, end };
+  }
+
+  lastIndexOf(key: string): number {
+    for (let i = this.data.length - 1; i >= 0; i--) {
+      if (this.data[i].class === key) {
+        return i;
+      }
+    }
+    return -1;
   }
 }
