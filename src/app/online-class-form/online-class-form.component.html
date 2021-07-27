@@ -1,0 +1,97 @@
+<h2>Online Classes data for Classes XI to XII 2021-22</h2>
+<div class="card">
+  <div class="card-body">
+    <div *ngIf="res != -1" class="alert" [class.alert-success] = "res === 1" [class.alert-danger] = "res === 0" role="alert">
+      {{msg}}
+    </div>
+    <form [formGroup]="onlineClassForm" (ngSubmit)="onSubmit();">
+
+      <div class="form-group">
+        <label for="week">Week<span class="req">*</span></label>
+        <select class="form-control" id="week" formControlName="week" required (change)="checkDetails()">
+          <option value="">Select Week</option>
+          <option *ngFor="let w of weeks" [value]="w.id">{{ w.name}}</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="class">Class<span class="req">*</span></label>
+            <select class="form-control" id="class" formControlName="class" required (change)="checkDetails()">
+              <option value="">Select Class</option>
+              <option *ngFor="let cls of CLASSES" [value]="cls">{{cls}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="section">Section<span class="req">*</span></label>
+            <select class="form-control" id="section" formControlName="section" required (change)="checkDetails()">
+              <option value="">Select Section</option>
+              <option *ngFor="let sec of SECTIONS" [value]="sec">{{sec}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="subject">Subject<span class="req">*</span></label>
+        <select class="form-control" id="subject" formControlName="subject" required (change)="checkDetails()">
+          <option value="">Select Subject</option>
+          <option *ngFor="let sub of SUBJECTS" [value]="sub">{{ sub }}</option>
+        </select>
+      </div>
+
+      <!-- Employee details -->
+      <fieldset class="border p-2">
+        <legend class="w-auto">Employee Details:</legend>
+        <div class="form-group">
+          <label for="empId">Employee Id<span class="req">*</span></label>
+          <input type="number" class="form-control" id="empId" formControlName="empId" required>
+        </div>
+
+        <div class="form-group">
+          <label for="empName">Employee name<span class="req">*</span></label>
+          <input type="text" class="form-control" id="empName" formControlName="empName" required>
+        </div>
+      </fieldset>
+      <!-- Student Details -->
+      <fieldset class="border p-2">
+        <legend class="w-auto">Students Detail:</legend>
+        <div *ngIf="onlineClassForm.errors?.rule5Failed && (onlineClassForm.touched || onlineClassForm.dirty)" class="cross-validation-error-message alert alert-danger">
+          Rule 1 Failed
+        </div>
+        <div class="form-group">
+          <label for="enroll"><b>A.</b> Enrollment<span class="req">*</span> &nbsp;<b>(Rule 1 --> A = B + C + D + E)</b></label>
+          <input type="number" class="form-control" id="enroll" formControlName="enroll" required>
+        </div>
+        <div class="form-group">
+          <label for="onlineAttended"><b>B.</b> Number of enrolled students who attended online class<span class="req">*</span></label>
+          <input type="number" class="form-control" id="onlineAttended" formControlName="onlineAttended" required>
+        </div>
+        <div *ngIf="onlineClassForm.errors?.rule6Failed && (onlineClassForm.touched || onlineClassForm.dirty)" class="cross-validation-error-message alert alert-danger">
+          Rule 2 Failed
+        </div>
+        <div class="form-group">
+          <label for="dontHaveDevice"><b>C.</b> Number of enrolled students who do not have device to attend online class<span class="req">*</span>&nbsp;<b>(Rule 2 --> C >=(greater than equal to) D)</b></label>
+          <input type="number" class="form-control" id="dontHaveDevice" formControlName="dontHaveDevice" required>
+        </div>
+        <div class="form-group">
+          <label for="reachedThroughPhone"><b>D.</b> Number of enrolled students who do not have online device, reached through phone<span class="req">*</span></label>
+          <input type="number" class="form-control" id="reachedThroughPhone" formControlName="reachedThroughPhone" required>
+        </div>
+        <div class="form-group">
+          <label for="notContacted"><b>E.</b> Number of enrolled students who couldn’t be contacted through phone or any other modes<span class="req">*</span></label>
+          <input type="number" class="form-control" id="notContacted" formControlName="notContacted" required>
+        </div>
+    </fieldset>&nbsp;
+    <div class="row">
+      <div class="col text-center">
+        <button type="submit" class="btn btn-primary mx-2" [disabled]="!onlineClassForm.valid || onlineClassForm.errors">Submit</button>
+        <button type="button" class="btn btn-secondary mx-2" (click)="reset()">Reset</button>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>

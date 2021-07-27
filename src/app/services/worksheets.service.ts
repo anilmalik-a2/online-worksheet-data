@@ -1,3 +1,4 @@
+import { OnlineClassModel } from './../models/online-class-model';
 import { WorksheetModel } from './../models/worksheets-model';
 import { Injectable } from '@angular/core';
 
@@ -11,6 +12,7 @@ import { Observable } from 'rxjs';
 export class WorksheetsService {
 
   collectionName = 'worksheet-data';
+  collectionName2 = 'online-class-data';
 
   constructor(private firestore: AngularFirestore) { }
 
@@ -51,7 +53,23 @@ export class WorksheetsService {
       ref => ref.where('week', '==', week).where('class', '==', cls).where('section', '==', section)).snapshotChanges();
   }
 
-  // deletePolicy(policyId: string): any {
-  //   this.firestore.doc('policies/' + policyId).delete();
-  // }
+  getOnlineClassData(week: string): any {
+    return this.firestore.collection(this.collectionName2, ref => ref.where('week', '==', week)).snapshotChanges();
+  }
+
+  saveOnlineClassData(classData: OnlineClassModel): any {
+    return this.firestore.collection(this.collectionName2).add(classData);
+  }
+
+  updateOnlineClassData(classData: OnlineClassModel): any {
+    const docId = classData.id;
+    delete classData.id;
+    // console.log(docId);
+    return this.firestore.doc(this.collectionName2 + '/' + docId).update(classData);
+  }
+
+  getSingleOnlineClassData(week: string, cls: string, section: string, subject: string): any {
+    return this.firestore.collection(this.collectionName2, ref => ref.where('week', '==', week)
+      .where('class', '==', cls).where('section', '==', section).where('subject', '==', subject)).snapshotChanges();
+  }
 }

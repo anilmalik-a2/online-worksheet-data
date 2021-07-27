@@ -1,0 +1,30 @@
+h2 {
+  text-align: center;
+}
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  .card-body {
+    margin: 10px;
+  }
+}
+.ng-valid[required],
+.ng-valid.required {
+  border-left: 5px solid #42a948; /* green */
+}
+
+.ng-invalid:not(form) {
+  border-left: 5px solid #a94442; /* red */
+}
+b {
+  font-size: 1rem;
+}
+.req {
+  color: red;
+  font-size: 1rem;
+}
+.btn.disabled,
+.btn:disabled {
+  opacity: 0.2;
+}

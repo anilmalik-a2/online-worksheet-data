@@ -16,6 +16,8 @@ import { MastersComponent } from './masters/masters.component';
 import { WeeksComponent } from './masters/weeks/weeks.component';
 import { ClassSectionsComponent } from './masters/class-sections/class-sections.component';
 import { EnrollmentComponent } from './masters/enrollment/enrollment.component';
+import { ChooseFormComponent } from './choose-form/choose-form.component';
+import { OnlineClassFormComponent } from './online-class-form/online-class-form.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { EnrollmentComponent } from './masters/enrollment/enrollment.component';
     MastersComponent,
     WeeksComponent,
     ClassSectionsComponent,
-    EnrollmentComponent
+    EnrollmentComponent,
+    ChooseFormComponent,
+    OnlineClassFormComponent
   ],
   imports: [
     BrowserModule,

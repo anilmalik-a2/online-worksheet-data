@@ -30,3 +30,19 @@ export const rule4Validator: ValidatorFn = (control: AbstractControl): Validatio
     const sum = parseInt(g.value + h.value + i.value + j.value, 10);
     return !Number.isNaN(sum) && f.value !== sum ? { rule4Failed: true } : null;
 };
+
+export const rule5Validator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const a = control.get('enroll');
+    const b = control.get('onlineAttended');
+    const d = control.get('dontHaveDevice');
+    const f = control.get('reachedThroughPhone');
+    const g = control.get('notContacted');
+    const sum = parseInt(b.value + d.value + f.value + g.value, 10);
+    return !Number.isNaN(sum) && a.value !== sum ? { rule5Failed: true } : null;
+};
+
+export const rule6Validator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const d = control.get('dontHaveDevice');
+    const e = control.get('reachedThroughPhone');
+    return d.value < e.value ? { rule6Failed: true } : null;
+};

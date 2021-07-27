@@ -1,3 +1,5 @@
+import { OnlineClassFormComponent } from './online-class-form/online-class-form.component';
+import { ChooseFormComponent } from './choose-form/choose-form.component';
 import { MastersComponent } from './masters/masters.component';
 import { LoginGuard } from './login.guard';
 import { LoginComponent } from './login/login.component';
@@ -9,8 +11,20 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
+    component: ChooseFormComponent,
+    data: { title: 'Online Worksheets/Classes Entry' },
+    pathMatch: 'full'
+  },
+  {
+    path: 'worksheetform',
     component: WorksheetsFormComponent,
-    data: { title: 'Online Worksheets Entry' },
+    data: { title: 'Online Worksheets data Entry' },
+    pathMatch: 'full'
+  },
+  {
+    path: 'onlineclassform',
+    component: OnlineClassFormComponent,
+    data: { title: 'Online Classes data Entry' },
     pathMatch: 'full'
   },
   {
@@ -27,7 +41,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'masters',
+    path: 'master',
     component: MastersComponent,
     data: { title: 'Online Worksheets Details' },
     pathMatch: 'full',
