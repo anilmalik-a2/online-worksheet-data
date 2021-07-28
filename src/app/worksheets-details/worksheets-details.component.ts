@@ -1,3 +1,4 @@
+import { OnlineClassModel } from './../models/online-class-model';
 import { WorksheetModel } from './../models/worksheets-model';
 import { WorksheetsService } from '../services/worksheets.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +12,10 @@ import { CLASSES } from '../models/CONSTANTS';
 export class WorksheetsDetailsComponent implements OnInit {
 
   data: WorksheetModel[];
+  onlineClassData: OnlineClassModel[];
   weeks: any;
+  week = '';
+  details = '';
   constructor(private worksheetService: WorksheetsService) { }
 
   ngOnInit(): void {
@@ -31,12 +35,23 @@ export class WorksheetsDetailsComponent implements OnInit {
     });
   }
 
-  onChange(val: any): void {
-    this.data = [];
-    if (val === '') {
+  onSubmit(): void {
+    if (this.week === '' && this.details === '') {
       return;
     }
-    this.worksheetService.getWorksheetsData(val).subscribe((data: any) => {
+    this.data = [];
+    this.onlineClassData = [];
+    if (this.details === '1') {
+      // fetch worksheets data for particular week
+      this.getWorksheetData();
+    } else if (this.details === '2') {
+      // fetch online classes data
+      this.getOnlineClassData();
+    }
+  }
+
+  getWorksheetData(): any {
+    this.worksheetService.getWorksheetsData(this.week).subscribe((data: any) => {
       const d: WorksheetModel[] = data.map((e: any) => {
         return {
           id: e.payload.doc.id,
@@ -54,11 +69,11 @@ export class WorksheetsDetailsComponent implements OnInit {
         }
         return cls1 > cls2 ? 1 : -1;
       });
-      this.insertTotals();
+      this.insertTotalsWorkSheets();
     });
   }
 
-  insertTotals(): any {
+  insertTotalsWorkSheets(): any {
     for (const cls of CLASSES) {
       if (cls === 'KG') {
         continue;
@@ -98,5 +113,58 @@ export class WorksheetsDetailsComponent implements OnInit {
       }
     }
     return -1;
+  }
+
+  getOnlineClassData(): any {
+    this.worksheetService.getOnlineClassData(this.week).subscribe((data: any) => {
+      const d: OnlineClassModel[] = data.map((e: any) => {
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data() as {}
+        } as OnlineClassModel;
+      });
+      this.onlineClassData = d.sort((a: OnlineClassModel, b: OnlineClassModel) => {
+        const cls1 = CLASSES.indexOf(a.class);
+        const cls2 = CLASSES.indexOf(b.class);
+        if (cls1 === cls2) {
+          if (a.section === b.section) {
+            return 0;
+          }
+          return a.section > b.section ? 1 : -1;
+        }
+        return cls1 > cls2 ? 1 : -1;
+      });
+      this.insertTotalsSubjectWiseForClass('XI');
+      this.insertTotalsSubjectWiseForClass('XII');
+    });
+  }
+  insertTotalsSubjectWiseForClass(cls: string): any {
+    // total
+    const clsData = this.onlineClassData.filter((d: OnlineClassModel) => d.class === cls);
+    const uniqueSub = [];
+    for (const d of clsData) {
+      if (uniqueSub.indexOf(d.subject) === -1) {
+        uniqueSub.push(d.subject);
+      }
+    }
+    const totalAdded: OnlineClassModel[] = [];
+    for (const s of uniqueSub) {
+      const added = new OnlineClassModel();
+      added.class = cls;
+      added.section = 'Total for ' + s;
+      for (const d of clsData) {
+        if (d.subject === s) {
+          added.enroll += d.enroll;
+          added.onlineAttended += d.onlineAttended;
+          added.dontHaveDevice += d.dontHaveDevice;
+          added.reachedThroughPhone += d.reachedThroughPhone;
+          added.notContacted += d.notContacted;
+        }
+      }
+      totalAdded.push(added);
+    }
+    if (totalAdded.length > 0) {
+      this.onlineClassData.push(...totalAdded);
+    }
   }
 }

@@ -1,14 +1,27 @@
 <h2>Online Worksheets data for Classes KG to X 2021-22</h2><br>
-<div class="row">
-  <div class="form-group col">
-    <!-- <label for="week">Week</label> -->
-    <select class="form-control" id="week" (change)="onChange($event.target.value)">
-      <option value="">Select Week</option>
-      <option *ngFor="let w of weeks" [value]="w.id">{{ w.name }}</option>
-    </select>
+<form ngNativeValidate (submit)="onSubmit()">
+  <div class="row">
+    <div class="form-group col-6">
+      <!-- <label for="week">Week</label> -->
+      <select class="form-control" [(ngModel)]="week" name="week" required>
+        <option value="">Select Week</option>
+        <option *ngFor="let w of weeks" [value]="w.id">{{ w.name }}</option>
+      </select>
+    </div>
+    <div class="form-group col-4">
+      <!-- <label for="week">Week</label> -->
+      <select class="form-control" [(ngModel)]="details" name="details" required>
+        <option value="">Select View Details</option>
+        <option value="1">KG to X</option>
+        <option value="2">XI to XII</option>
+      </select>
+    </div>
+    <div class="form-group col-2">
+      <button type="submit" class="btn btn-primary mx-2">Submit</button>
+    </div>
   </div>
-</div>
-<div class="table-responsive">
+</form>
+<div class="table-responsive" *ngIf="data && data.length > 0">
   <table class="table table-striped table-bordered">
     <thead>
       <tr>
@@ -64,6 +77,54 @@
           <td>{{ ws.unreachableNo }}</td>
           <td>{{ ws.addressChanged }}</td>
           <td>{{ ws.other }}</td>
+          <td></td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+<div class="table-responsive" *ngIf="onlineClassData && onlineClassData.length > 0">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Employee Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Class</th>
+        <th scope="col">Section</th>
+        <th scope="col">Subject</th>
+        <th scope="col">Enrollment</th>
+        <th scope="col">Online Attended</th>
+        <th scope="col">Don't have device</th>
+        <th scope="col">Reached through phone</th>
+        <th scope="col">Not contacted</th>
+        <th scope="col">Entry Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let cls of onlineClassData">
+        <tr *ngIf="!cls.section.includes('Total')">
+          <td>{{ cls.empId }}</td>
+          <td>{{ cls.empName }}</td>
+          <td>{{ cls.class }}</td>
+          <td>{{ cls.section }}</td>
+          <td>{{ cls.subject}}</td>
+          <td>{{ cls.enroll }}</td>
+          <td>{{ cls.onlineAttended }}</td>
+          <td>{{ cls.dontHaveDevice }}</td>
+          <td>{{ cls.reachedThroughPhone }}</td>
+          <td>{{ cls.notContacted }}</td>
+          <td>
+            {{ cls.entryDate.toDate() | date: "dd/MM/yyyy hh:mm:ss a" }}
+          </td>
+        </tr>
+        <tr *ngIf="cls.section.includes('Total')" [ngClass]="{clsXII: (cls.class == 'XII')}" class="total-tr">
+          <td colspan="3">{{ cls.class }}</td>
+          <td colspan="2">{{ cls.section }}</td>
+          <td>{{ cls.enroll }}</td>
+          <td>{{ cls.onlineAttended }}</td>
+          <td>{{ cls.dontHaveDevice }}</td>
+          <td>{{ cls.reachedThroughPhone }}</td>
+          <td>{{ cls.notContacted }}</td>
           <td></td>
         </tr>
       </ng-container>
