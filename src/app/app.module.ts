@@ -18,6 +18,7 @@ import { ClassSectionsComponent } from './masters/class-sections/class-sections.
 import { EnrollmentComponent } from './masters/enrollment/enrollment.component';
 import { ChooseFormComponent } from './choose-form/choose-form.component';
 import { OnlineClassFormComponent } from './online-class-form/online-class-form.component';
+import { NgJsonEditorModule } from 'ang-jsoneditor';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { OnlineClassFormComponent } from './online-class-form/online-class-form.
 
     ReactiveFormsModule,
     FormsModule,
+    NgJsonEditorModule,
 
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule

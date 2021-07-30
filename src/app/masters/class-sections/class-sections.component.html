@@ -1,1 +1,25 @@
-<p>class-sections works!</p>
+<!-- <ace-editor [(text)]="code" mode="json" style="height:400px;"></ace-editor> -->
+<div class="row">
+    <div class="col">
+        <form  [formGroup]="form" (submit)="submit()">
+            <json-editor [options]="editorOptions" formControlName="myinput">
+            </json-editor>
+
+            <button type="submit" class="btn btn-primary" title="Submit Details">Submit</button>
+        </form>
+    </div>
+</div><br>
+<!-- <div class="row">
+    <div class="col">
+        <div ace-editor [(text)]="code" [mode]="'json'" 
+            style="min-height: 400px; width:100%; overflow: auto;">
+        </div>
+    </div>
+</div><br>
+<div class="row">
+    <div class="col">
+        <ngx-json-viewer [json]="data" [expanded]="false"></ngx-json-viewer>
+    </div>
+</div> -->
+
+

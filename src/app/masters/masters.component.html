@@ -1,7 +1,7 @@
 <div class="tab">
   <button class="tablinks" [ngClass]="{active: (openTab == 1)}" (click)="openTab = 1"> Weeks  </button>
-  <button class="tablinks" [ngClass]="{active: (openTab == 2)}" (click)="openTab = 2"> Class/Sections </button>
-  <button class="tablinks" [ngClass]="{active: (openTab == 3)}" (click)="openTab = 3"> Enrollment </button>
+  <button class="tablinks" [ngClass]="{active: (openTab == 2)}" (click)="openTab = 2"> Class/Sections Enrollment</button>
+  <!-- <button class="tablinks" [ngClass]="{active: (openTab == 3)}" (click)="openTab = 3"> Enrollment </button> -->
 </div>
 
 <div class="tabcontent" *ngIf="openTab == 1">
@@ -12,6 +12,6 @@
     <app-class-sections></app-class-sections>
 </div>
 
-<div class="tabcontent" *ngIf="openTab == 3">
+<!-- <div class="tabcontent" *ngIf="openTab == 3">
     <app-enrollment></app-enrollment>
-</div>
+</div> -->

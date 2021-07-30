@@ -33,6 +33,24 @@ export class WorksheetsService {
     }
   }
 
+  addUpdateClassSections(data: any): any {
+    this.firestore.firestore.collection('class-sections').get().then(res => {
+      res.forEach(element => {
+        element.ref.delete();
+      });
+      const batch = this.firestore.firestore.batch();
+      data.forEach((doc: any) => {
+        const docRef = this.firestore.firestore.collection('class-sections').doc(); // automatically generate unique id
+        batch.set(docRef, doc);
+      });
+      return batch.commit();
+    });
+  }
+
+  getClassSections(): any {
+    return this.firestore.collection('class-sections').snapshotChanges();
+  }
+
   getWorksheetsData(week: string): any {
     return this.firestore.collection(this.collectionName, ref => ref.where('week', '==', week)).snapshotChanges();
   }
