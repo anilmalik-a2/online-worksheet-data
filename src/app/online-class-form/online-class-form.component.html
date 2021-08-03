@@ -18,7 +18,7 @@
         <div class="col">
           <div class="form-group">
             <label for="class">Class<span class="req">*</span></label>
-            <select class="form-control" id="class" formControlName="class" required (change)="checkDetails()">
+            <select class="form-control" id="class" formControlName="class" required (change)="changeClass()">
               <option value="">Select Class</option>
               <option *ngFor="let cls of CLASSES" [value]="cls">{{cls}}</option>
             </select>
@@ -39,7 +39,7 @@
         <label for="subject">Subject<span class="req">*</span></label>
         <select class="form-control" id="subject" formControlName="subject" required (change)="checkDetails()">
           <option value="">Select Subject</option>
-          <option *ngFor="let sub of SUBJECTS" [value]="sub">{{ sub }}</option>
+          <option *ngFor="let sub of subjects" [value]="sub">{{ sub }}</option>
         </select>
       </div>
 

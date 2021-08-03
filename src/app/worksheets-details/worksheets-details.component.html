@@ -1,4 +1,4 @@
-<h2>Online Worksheets data for Classes KG to X 2021-22</h2><br>
+<h2>Online data submitted for Classes Nursery to XII 2021-22</h2><br>
 <form ngNativeValidate (submit)="onSubmit()">
   <div class="row">
     <div class="form-group col-6">
@@ -12,8 +12,8 @@
       <!-- <label for="week">Week</label> -->
       <select class="form-control" [(ngModel)]="details" name="details" required>
         <option value="">Select View Details</option>
-        <option value="1">KG to X</option>
-        <option value="2">XI to XII</option>
+        <option value="1">Nursery to X</option>
+        <option value="2">IX to XII</option>
       </select>
     </div>
     <div class="form-group col-2">
@@ -117,7 +117,7 @@
             {{ cls.entryDate.toDate() | date: "dd/MM/yyyy hh:mm:ss a" }}
           </td>
         </tr>
-        <tr *ngIf="cls.section.includes('Total')" [ngClass]="{clsXII: (cls.class == 'XII')}" class="total-tr">
+        <tr *ngIf="cls.section.includes('Total')" [ngClass]="{clsXII: (cls.class == 'XII' || cls.class == 'IX')}" class="total-tr">
           <td colspan="3">{{ cls.class }}</td>
           <td colspan="2">{{ cls.section }}</td>
           <td>{{ cls.enroll }}</td>

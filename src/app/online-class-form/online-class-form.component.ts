@@ -4,7 +4,7 @@ import { WorksheetsService } from '../services/worksheets.service';
 
 import { FormBuilder, FormControl, Validators  } from '@angular/forms';
 
-import { CLASSES, SECTIONS, SUBJECTS } from './../models/CONSTANTS';
+import { CLASSES, SECTIONS, SUBJECTS, SUBJECTS_IX_X } from './../models/CONSTANTS';
 import { rule5Validator, rule6Validator } from '../models/validators';
 
 
@@ -16,9 +16,9 @@ import { rule5Validator, rule6Validator } from '../models/validators';
 
 export class OnlineClassFormComponent implements OnInit {
 
-  CLASSES = CLASSES.slice(-2);
+  CLASSES = CLASSES.slice(-4);
   SECTIONS = SECTIONS;
-  SUBJECTS = SUBJECTS;
+  subjects = [];
   weeks: any;
   res = -1;
   msg = '';
@@ -102,6 +102,23 @@ export class OnlineClassFormComponent implements OnInit {
     //   this.res = -1;
     //   this.msg = '';
     // }, 5000);
+  }
+
+  changeClass(): any {
+    const cls = this.onlineClassForm.controls.class.value;
+    if (cls !== '') {
+      if (cls === 'IX' || cls === 'X'){
+        this.subjects = SUBJECTS_IX_X;
+      }else {
+        this.subjects = SUBJECTS;
+      }
+    } else {
+      this.subjects = [];
+    }
+    this.onlineClassForm.patchValue({
+        subject: ''
+      });
+    this.checkDetails();
   }
 
   checkDetails(): any {

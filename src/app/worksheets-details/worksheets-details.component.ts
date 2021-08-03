@@ -134,8 +134,9 @@ export class WorksheetsDetailsComponent implements OnInit {
         }
         return cls1 > cls2 ? 1 : -1;
       });
-      this.insertTotalsSubjectWiseForClass('XI');
-      this.insertTotalsSubjectWiseForClass('XII');
+      for (const cls of CLASSES.slice(-4)) {
+        this.insertTotalsSubjectWiseForClass(cls);
+      }
     });
   }
   insertTotalsSubjectWiseForClass(cls: string): any {

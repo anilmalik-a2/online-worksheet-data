@@ -16,7 +16,7 @@ import { rule1Validator, rule2Validator, rule3Validator, rule4Validator } from '
 
 export class WorksheetsFormComponent implements OnInit {
 
-  CLASSES = CLASSES;
+  CLASSES = CLASSES.slice(0, -2);
   SECTIONS = SECTIONS;
   weeks: any;
   res = -1;
