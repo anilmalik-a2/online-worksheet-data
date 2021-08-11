@@ -90,4 +90,11 @@ export class WorksheetsService {
     return this.firestore.collection(this.collectionName2, ref => ref.where('week', '==', week)
       .where('class', '==', cls).where('section', '==', section).where('subject', '==', subject)).snapshotChanges();
   }
+
+  deleteWorksheetData(docId: string): any {
+    return this.firestore.doc(this.collectionName + '/' + docId).delete();
+  }
+  deleteOnlineClassData(docId: string): any {
+    return this.firestore.doc(this.collectionName2 + '/' + docId).delete();
+  }
 }

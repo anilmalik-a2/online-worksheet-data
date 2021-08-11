@@ -102,22 +102,24 @@ export class WorksheetsDetailsComponent implements OnInit {
     const total = this.data.filter((d: WorksheetModel) => {
       return ((d.class.indexOf('Total') !== -1) || d.class === CLASSES[0] || d.class === CLASSES[1]);
     });
-    const gTotal = new WorksheetModel();
-    for (const t of total) {
-      // total
-      gTotal.enroll += t.enroll;
-      gTotal.onlineSent += t.onlineSent;
-      gTotal.onlineReverted += t.onlineReverted;
-      gTotal.hardSent += t.hardSent;
-      gTotal.hardReverted += t.hardReverted;
-      gTotal.notContactable += t.notContactable;
-      gTotal.migrated += t.migrated;
-      gTotal.unreachableNo += t.unreachableNo;
-      gTotal.addressChanged += t.addressChanged;
-      gTotal.other += t.other;
+    if (total.length > 0) {
+      const gTotal = new WorksheetModel();
+      for (const t of total) {
+        // total
+        gTotal.enroll += t.enroll;
+        gTotal.onlineSent += t.onlineSent;
+        gTotal.onlineReverted += t.onlineReverted;
+        gTotal.hardSent += t.hardSent;
+        gTotal.hardReverted += t.hardReverted;
+        gTotal.notContactable += t.notContactable;
+        gTotal.migrated += t.migrated;
+        gTotal.unreachableNo += t.unreachableNo;
+        gTotal.addressChanged += t.addressChanged;
+        gTotal.other += t.other;
+      }
+      gTotal.class = 'Grand Total';
+      this.data.push(gTotal);
     }
-    gTotal.class = 'Grand Total';
-    this.data.push(gTotal);
   }
 
   getSameGroupStartEnd(classToFind: string): any {
@@ -186,6 +188,18 @@ export class WorksheetsDetailsComponent implements OnInit {
     }
     if (totalAdded.length > 0) {
       this.onlineClassData.push(...totalAdded);
+    }
+  }
+
+  delete(id: string, isWorksheet: boolean): any {
+    if (id.trim() !== '') {
+      if (confirm('Are you sure you want to delete selected doc')) {
+        if (isWorksheet) {
+          this.worksheetService.deleteWorksheetData(id);
+        } else {
+          this.worksheetService.deleteOnlineClassData(id);
+        }
+      }
     }
   }
 }
