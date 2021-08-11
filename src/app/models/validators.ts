@@ -34,10 +34,10 @@ export const rule4Validator: ValidatorFn = (control: AbstractControl): Validatio
 export const rule5Validator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const a = control.get('enroll');
     const b = control.get('onlineAttended');
-    const d = control.get('dontHaveDevice');
+    const d = 0; // control.get('dontHaveDevice');
     const f = control.get('reachedThroughPhone');
     const g = control.get('notContacted');
-    const sum = parseInt(b.value + d.value + f.value + g.value, 10);
+    const sum = parseInt(b.value + d + f.value + g.value, 10);
     return !Number.isNaN(sum) && a.value !== sum ? { rule5Failed: true } : null;
 };
 

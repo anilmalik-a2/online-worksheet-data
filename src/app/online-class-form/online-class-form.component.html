@@ -63,26 +63,26 @@
           Rule 1 Failed
         </div>
         <div class="form-group">
-          <label for="enroll"><b>A.</b> Enrollment<span class="req">*</span> &nbsp;<b>(Rule 1 --> A = B + C + D + E)</b></label>
+          <label for="enroll"><b>A.</b> Enrollment<span class="req">*</span> &nbsp;<b>(Rule 1 --> A = B + C + D)</b></label>
           <input type="number" class="form-control" id="enroll" formControlName="enroll" required>
         </div>
         <div class="form-group">
           <label for="onlineAttended"><b>B.</b> Number of enrolled students who attended online class<span class="req">*</span></label>
           <input type="number" class="form-control" id="onlineAttended" formControlName="onlineAttended" required>
         </div>
-        <div *ngIf="onlineClassForm.errors?.rule6Failed && (onlineClassForm.touched || onlineClassForm.dirty)" class="cross-validation-error-message alert alert-danger">
+        <!--<div *ngIf="onlineClassForm.errors?.rule6Failed && (onlineClassForm.touched || onlineClassForm.dirty)" class="cross-validation-error-message alert alert-danger">
           Rule 2 Failed
         </div>
         <div class="form-group">
-          <label for="dontHaveDevice"><b>C.</b> Number of enrolled students who do not have device to attend online class<span class="req">*</span>&nbsp;<b>(Rule 2 --> C >=(greater than equal to) D)</b></label>
+          <label for="dontHaveDevice"><b>C.</b> Number of enrolled students who do not have device to attend online class<span class="req">*</span>&nbsp;<b>(Rule 2 -- > C >=(greater than equal to) D)</b></label>
           <input type="number" class="form-control" id="dontHaveDevice" formControlName="dontHaveDevice" required>
-        </div>
+        </div> -->
         <div class="form-group">
-          <label for="reachedThroughPhone"><b>D.</b> Number of enrolled students who do not have online device, reached through phone<span class="req">*</span></label>
+          <label for="reachedThroughPhone"><b>C.</b> Number of enrolled students who do not have online device, reached through phone<span class="req">*</span></label>
           <input type="number" class="form-control" id="reachedThroughPhone" formControlName="reachedThroughPhone" required>
         </div>
         <div class="form-group">
-          <label for="notContacted"><b>E.</b> Number of enrolled students who couldn’t be contacted through phone or any other modes<span class="req">*</span></label>
+          <label for="notContacted"><b>D.</b> Number of enrolled students who couldn’t be contacted through phone or any other modes<span class="req">*</span></label>
           <input type="number" class="form-control" id="notContacted" formControlName="notContacted" required>
         </div>
     </fieldset>&nbsp;

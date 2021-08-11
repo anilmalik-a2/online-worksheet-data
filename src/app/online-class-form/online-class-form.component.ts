@@ -33,10 +33,10 @@ export class OnlineClassFormComponent implements OnInit {
     subject: new FormControl(''),
     enroll: new FormControl(''),
     onlineAttended: new FormControl(''),
-    dontHaveDevice: new FormControl(''),
+    dontHaveDevice: new FormControl(0),
     reachedThroughPhone: new FormControl(''),
     notContacted: new FormControl('')
-  },  { validators: [Validators.required, rule5Validator, rule6Validator] });
+  },  { validators: [Validators.required, rule5Validator/*, rule6Validator*/] });
 
   constructor(private worksheetService: WorksheetsService, private fb: FormBuilder) { }
 
@@ -93,7 +93,7 @@ export class OnlineClassFormComponent implements OnInit {
       subject: '',
       enroll: '',
       onlineAttended: '',
-      dontHaveDevice: '',
+      dontHaveDevice: 0,
       reachedThroughPhone: '',
       notContacted: ''
     });
@@ -166,7 +166,7 @@ export class OnlineClassFormComponent implements OnInit {
       empName: '',
       enroll: '',
       onlineAttended: '',
-      dontHaveDevice: '',
+      dontHaveDevice: 0,
       reachedThroughPhone: '',
       notContacted: ''
     });
