@@ -23,6 +23,7 @@ export class OnlineClassFormComponent implements OnInit {
   res = -1;
   msg = '';
   docId = null;
+  progress: boolean;
 
   onlineClassForm = this.fb.group({
     empId: new FormControl(''),
@@ -41,6 +42,7 @@ export class OnlineClassFormComponent implements OnInit {
   constructor(private worksheetService: WorksheetsService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.progress = true;
     this.worksheetService.getWeeks().subscribe((data: any) => {
       const d = data.map((e: any) => {
         return {
@@ -54,10 +56,12 @@ export class OnlineClassFormComponent implements OnInit {
         }
         return n1.id > n2.id ? 1 : -1;
       });
+      this.progress = false;
     });
   }
 
   onSubmit(): any {
+    this.progress = true;
     const classData = this.onlineClassForm.value as OnlineClassModel;
     classData.entryDate = new Date();
     let result: any;
@@ -73,12 +77,14 @@ export class OnlineClassFormComponent implements OnInit {
       this.res = 1;
       this.msg = 'Data submitted successfully!!!';
       this.reset();
+      this.progress = false;
     })
     .catch((error: any) => {
         console.error('Error adding document: ', error);
         this.res = 0;
         this.msg = 'Error submitting details!!! Please contact administrator...';
         this.reset();
+        this.progress = false;
     });
   }
 
@@ -128,6 +134,7 @@ export class OnlineClassFormComponent implements OnInit {
     const subject = this.onlineClassForm.controls.subject.value;
     // console.log('check details', cls, week, section);
     if (cls && week && section && subject) {
+      this.progress = true;
       const subs = this.worksheetService.getSingleOnlineClassData(week, cls, section, subject).subscribe((data: any) => {
         let d = data.map((e: any) => {
           return {
@@ -153,6 +160,7 @@ export class OnlineClassFormComponent implements OnInit {
           this.resetSomeFields();
         }
         subs.unsubscribe();
+        this.progress = false;
       });
     } else {
       this.resetSomeFields();

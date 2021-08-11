@@ -22,6 +22,7 @@ export class WorksheetsFormComponent implements OnInit {
   res = -1;
   msg = '';
   docId = null;
+  progress: boolean;
 
   worksheetForm = this.fb.group({
     empId: new FormControl(''),
@@ -44,6 +45,7 @@ export class WorksheetsFormComponent implements OnInit {
   constructor(private worksheetService: WorksheetsService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.progress = true;
     this.worksheetService.getWeeks().subscribe((data: any) => {
       const d = data.map((e: any) => {
         return {
@@ -57,10 +59,12 @@ export class WorksheetsFormComponent implements OnInit {
         }
         return n1.id > n2.id ? 1 : -1;
       });
+      this.progress = false;
     });
   }
 
   onSubmit(): any {
+    this.progress = true;
     const wsData = this.worksheetForm.value as WorksheetModel;
     wsData.entryDate = new Date();
     let result: any;
@@ -72,16 +76,18 @@ export class WorksheetsFormComponent implements OnInit {
     }
 
     result.then((docRef: any) => {
+      this.progress = false;
       console.log('Document written with doc: ', docRef);
       this.res = 1;
       this.msg = 'Data submitted successfully!!!';
       this.reset();
     })
     .catch((error: any) => {
-        console.error('Error adding document: ', error);
-        this.res = 0;
-        this.msg = 'Error submitting details!!! Please contact administrator...';
-        this.reset();
+      this.progress = false;
+      console.error('Error adding document: ', error);
+      this.res = 0;
+      this.msg = 'Error submitting details!!! Please contact administrator...';
+      this.reset();
     });
   }
 
@@ -117,6 +123,7 @@ export class WorksheetsFormComponent implements OnInit {
     const section = this.worksheetForm.controls.section.value;
     // console.log('check details', cls, week, section);
     if (cls && week && section) {
+      this.progress = true;
       const subs = this.worksheetService.getSingleWorksheetData(week, cls, section).subscribe((data: any) => {
         let d = data.map((e: any) => {
           return {
@@ -147,6 +154,7 @@ export class WorksheetsFormComponent implements OnInit {
           this.resetSomeFields();
         }
         subs.unsubscribe();
+        this.progress = false;
       });
     } else {
       this.resetSomeFields();

@@ -1,6 +1,7 @@
 <h2>Worksheets data for Classes Nursery to X 2021-22</h2>
 <div class="card">
   <div class="card-body">
+    <app-spinner [enabled]="progress"></app-spinner>
     <div *ngIf="res != -1" class="alert" [class.alert-success] = "res === 1" [class.alert-danger] = "res === 0" role="alert">
       {{msg}}
     </div>
@@ -60,7 +61,7 @@
           <input type="number" class="form-control" id="enroll" formControlName="enroll" required>
         </div>
         <div class="form-group">
-          <label for="onlineSent"><b>B.</b> Worksheet Sent on Whatsapp<span class="req">*</span>&nbsp;<b>(Rule 2 --> B greater than equal to C)</b></label>
+          <label for="onlineSent"><b>B.</b> Worksheet Sent on Whatsapp<span class="req">*</span>&nbsp;<b>(Rule 2 --> B must be greater than or equal to C)</b></label>
           <input type="number" class="form-control" id="onlineSent" formControlName="onlineSent" required>
         </div>
         <div class="form-group">
@@ -71,7 +72,7 @@
           Rule 2 Failed
         </div>
         <div class="form-group">
-          <label for="hardSent"><b>D.</b> Worksheet Provided in Print form<span class="req">*</span>&nbsp;<b>(Rule 3 --> D greater than equal to E)</b></label>
+          <label for="hardSent"><b>D.</b> Worksheet Provided in Print form<span class="req">*</span>&nbsp;<b>(Rule 3 --> D must be greater than or equal to E)</b></label>
           <input type="number" class="form-control" id="hardSent" formControlName="hardSent" required>
         </div>
         <div class="form-group">

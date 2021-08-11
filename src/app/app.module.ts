@@ -19,6 +19,7 @@ import { EnrollmentComponent } from './masters/enrollment/enrollment.component';
 import { ChooseFormComponent } from './choose-form/choose-form.component';
 import { OnlineClassFormComponent } from './online-class-form/online-class-form.component';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { NgJsonEditorModule } from 'ang-jsoneditor';
     ClassSectionsComponent,
     EnrollmentComponent,
     ChooseFormComponent,
-    OnlineClassFormComponent
+    OnlineClassFormComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
