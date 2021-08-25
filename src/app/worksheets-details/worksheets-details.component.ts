@@ -75,7 +75,7 @@ export class WorksheetsDetailsComponent implements OnInit {
 
   insertTotalsWorkSheets(): any {
     for (const cls of CLASSES) {
-      if (cls === 'KG') {
+      if (cls === 'KG' || cls === 'Nursery') {
         continue;
       }
       const indexes = this.getSameGroupStartEnd(cls);
@@ -99,9 +99,59 @@ export class WorksheetsDetailsComponent implements OnInit {
       }
     }
     // Insert grand Total
-    const total = this.data.filter((d: WorksheetModel) => {
-      return ((d.class.indexOf('Total') !== -1) || d.class === CLASSES[0] || d.class === CLASSES[1]);
-    });
+    this.insertGrandTotal(0, 'Grand Total');
+    this.insertGrandTotal(1, 'Total --> Nur to II');
+    this.insertGrandTotal(2, 'Total --> III to V');
+  }
+
+  insertGrandTotal(searchMode: number, msg: string): any {
+    let total: any = [];
+    let indexToAppend = -1;
+    switch (searchMode) {
+      case 0: // Insert Grand Total
+        total = this.data.filter((d: WorksheetModel) => {
+          return ((d.class.indexOf('Total') !== -1) || d.class === CLASSES[0] || d.class === CLASSES[1]);
+        });
+        indexToAppend = -1;
+        break;
+      case 1: // Insert total for Nur, KG, I and II
+        const list = [CLASSES[0], CLASSES[1], 'Total --> ' + CLASSES[2], 'Total --> ' + CLASSES[3]];
+        let found = 0;
+        for (let i = 0; i < this.data.length; i++) {
+          const d = this.data[i];
+          if (list.indexOf(d.class) !== -1) {
+            total.push(d);
+            indexToAppend = i;
+            found++;
+          }
+          if (found === 0) { // Data not present for any of classes
+            indexToAppend = -2;
+          }
+          else if (found === 4) {
+            break;
+          }
+        }
+        break;
+      case 2: // Insert total for III, IV and V
+        const list2 = ['Total --> ' + CLASSES[4], 'Total --> ' + CLASSES[5], 'Total --> ' + CLASSES[6]];
+        let found2 = 0;
+        for (let i = 0; i < this.data.length; i++) {
+          const d = this.data[i];
+          if (list2.indexOf(d.class) !== -1) {
+            total.push(d);
+            indexToAppend = i;
+            found2++;
+          }
+          if (found2 === 0) { // Data not present for any of classes
+            indexToAppend = -2;
+          }
+          else if (found2 === 4) {
+            break;
+          }
+        }
+        break;
+    }
+
     if (total.length > 0) {
       const gTotal = new WorksheetModel();
       for (const t of total) {
@@ -117,8 +167,16 @@ export class WorksheetsDetailsComponent implements OnInit {
         gTotal.addressChanged += t.addressChanged;
         gTotal.other += t.other;
       }
-      gTotal.class = 'Grand Total';
-      this.data.push(gTotal);
+      gTotal.class = msg;
+      switch (indexToAppend) {
+        case -1:
+          this.data.push(gTotal);
+          break;
+        case -2:
+          break;
+        default:
+          this.data.splice(indexToAppend + 1, 0, gTotal);
+      }
     }
   }
 
