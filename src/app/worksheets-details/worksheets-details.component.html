@@ -134,7 +134,7 @@
             </button>
           </td>
         </tr>
-        <tr *ngIf="cls.section.includes('Total')" [ngClass]="{clsXII: (cls.class == 'XII' || cls.class == 'IX')}" class="total-tr">
+        <tr *ngIf="cls.section.includes('Total')" [ngClass]="cls.class">
           <td colspan="3">{{ cls.class }}</td>
           <td colspan="2">{{ cls.section }}</td>
           <td>{{ cls.enroll }}</td>
